@@ -11,6 +11,7 @@ const console_controller = require('./controllers/console');
 const main_controller = require('./controllers/main');
 
 // Routes 
+const user_router = require('./routes/user');
 
 const app = express(); 
 
@@ -23,7 +24,7 @@ app.use(express.static(path.join(variables.main_dir, 'public')));
 /* Start handling */
 app.use(console_controller.LOG_Request);
 
-
+app.use(user_router);
 
 app.use(console_controller.LOG_Not_Found);
 /* End handling */ 
@@ -34,7 +35,7 @@ mongoose.connect(variables.DATABASE_URI).then(function(result)
     app.listen(variables.port, variables.hostname, function()
     {
         console.log(`\n\nServer succesfully started at http://${variables.hostname}:${variables.port}/\n`);
-    })
+    });
 }).catch(function(error)
 {
     console.log(error);

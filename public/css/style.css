@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&display=swap');
+
+*{
+    font-family: 'Tektur';
+}
+
+body {
+    background-image: url('/assets/images/website-background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Ensures the body takes up the full height of the viewport */
+    margin: 0; /* Removes default body margin */
+}
