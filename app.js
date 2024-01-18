@@ -12,6 +12,7 @@ const main_controller = require('./controllers/main');
 
 // Routes 
 const user_router = require('./routes/user');
+const auth_router = require('./routes/auth');
 
 const app = express(); 
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(variables.main_dir, 'public')));
 /* Start handling */
 app.use(console_controller.LOG_Request);
 
+app.use(auth_router);
 app.use(user_router);
 
 app.use(console_controller.LOG_Not_Found);
