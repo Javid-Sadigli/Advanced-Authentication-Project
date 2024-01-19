@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&display=swap');
 
 :root{
-    --main-white-color : rgb(189, 189, 189);
+    --main-white-color : rgba(189, 189, 189, 0.8);
     --main-black-color : rgb(50,50,50);
     --dark-gray-color : rgb(70, 70, 70);
 }
@@ -43,6 +43,7 @@ main{
     box-sizing: border-box;
 }
 
+
 .main-div{
     width: 80%;
     height: auto;
@@ -57,7 +58,7 @@ main{
     box-sizing: border-box;
 }
 
-.home-h2{
+h2{
     text-align: center;
     margin: 0px;
 }
@@ -80,6 +81,7 @@ main{
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     margin-right: -1px;
+    transition-duration: 0.3s;
 }
 
 .home-signin-a{
@@ -93,13 +95,14 @@ main{
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     margin-left: -1px;
+    transition-duration: 0.3s;
 }
 
 .main-div:hover{
     background-color: var(--main-white-color);
 }
 
-.main-div:hover .home-h2, 
+.main-div:hover h2, 
 .main-div:hover .home-p{
     color: var(--main-black-color);
 }
@@ -126,5 +129,4 @@ main{
     main{
         width: 100%;
     }  
-
 }
