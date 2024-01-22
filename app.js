@@ -5,6 +5,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const body_parser = require('body-parser');
 const path = require('path');
+const session = require('express-session');
+const mongoddb_session_store = require('connect-mongodb-session')(session);
 
 // Controllers 
 const console_controller = require('./controllers/console');
@@ -15,12 +17,22 @@ const user_router = require('./routes/user');
 const auth_router = require('./routes/auth');
 
 const app = express(); 
+const store = new mongoddb_session_store({
+    uri : variables.DATABASE_URI, 
+    collection :'sessions'
+});
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(body_parser.urlencoded({extended : false})); 
 app.use(express.static(path.join(variables.main_dir, 'public')));
+app.use(session({
+    secret : 'advanced-authentication-project', 
+    resave : false, 
+    saveUninitialized : false, 
+    store : store
+})); 
 
 /* Start handling */
 app.use(console_controller.LOG_Request);

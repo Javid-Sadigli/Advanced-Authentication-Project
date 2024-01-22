@@ -7,14 +7,8 @@ const Colors = {
 
 module.exports.LOG_Request = function(req,res,next) 
 {
-    if(req.url.startsWith('/admin', 0))
-    {
-        console.log(Colors.GREEN + `${req.method.toUpperCase()} request to ${req.url}`);
-    }
-    else
-    {
-        console.log(Colors.WHITE + `${req.method.toUpperCase()} request to ${req.url}`);
-    }
+    
+    console.log(Colors.WHITE + `${req.method.toUpperCase()} request to ${req.url}`);
     next();
 };
 

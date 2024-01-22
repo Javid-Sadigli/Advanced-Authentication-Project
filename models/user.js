@@ -7,10 +7,6 @@ const User = new Schema({
         type : String, 
         required : true
     }, 
-    username : {
-        type : String, 
-        required : true
-    }, 
     password : { 
         type : String, 
         required : true
@@ -20,9 +16,11 @@ const User = new Schema({
         required : true,
         default : false
     },
+    verify_token : {
+        token : String, 
+        expiration_date : Date
+    },
     reset_token : {
-        required : false, 
-        default : undefined, 
         token : String, 
         expiration_date : Date
     }
