@@ -15,6 +15,11 @@ const User = new Schema({
         type : String, 
         required : true
     },
+    verified : {
+        type: Boolean, 
+        required : true,
+        default : false
+    },
     reset_token : {
         required : false, 
         default : undefined, 

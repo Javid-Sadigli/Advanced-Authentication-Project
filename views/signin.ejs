@@ -1,0 +1,17 @@
+<%- include('includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/signin.css">
+</head>
+<body>
+    <main>
+        <div class="main-div">
+            <h2 class="signin-h2">Sign In</h2>
+            <form action="/signin" method="POST" class="signin-form">
+                <input type="text" name="email" placeholder="Email" autocomplete="off">
+                <input type="password" name="password" placeholder="Password" autocomplete="off">
+                <button type="submit">Sign In</button>
+                <a href="/signup" class="sign-up-a">You are the new one? Sign up!</a>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

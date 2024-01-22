@@ -3,5 +3,6 @@ const router = require('express').Router();
 const auth_controller = require('../controllers/auth');
 
 router.get('/signup', auth_controller.GET_Sign_Up);
+router.get('/signin', auth_controller.GET_Sign_In);
 
 module.exports = router;
