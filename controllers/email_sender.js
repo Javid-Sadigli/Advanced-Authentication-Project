@@ -1,3 +1,10 @@
+/*
+
+Check that website
+https://designmodo.com/postcards/app/
+
+*/
+
 const variables = require('../variables'); 
 const sendgrid_variables = variables.SendGrid; 
 
