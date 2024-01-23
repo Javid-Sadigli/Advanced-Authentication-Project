@@ -277,7 +277,7 @@ module.exports.SEND_Verify_Token = function(verify_token, email)
                     </tr>
                 </table>
                 <![endif]-->
-                                       <!--[if !mso]><!-- --><a style="border-radius: 8px;background-color: #575757;padding: 15px 17px 15px 17px;font-family: Tektur, Arial, Helvetica, sans-serif;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;color: #ffffff;text-align: center;text-align-last: center;text-decoration: none;display: inline-block;vertical-align: top;-webkit-text-size-adjust: none;" target="_blank" href="http://localhost:3000/verify_token/${verify_token}">Verify your email</a>
+                                       <!--[if !mso]><!-- --><a style="border-radius: 8px;background-color: #575757;padding: 15px 17px 15px 17px;font-family: Tektur, Arial, Helvetica, sans-serif;font-weight: 500;font-size: 16px;line-height: 150%;letter-spacing: -0.2px;color: #ffffff;text-align: center;text-align-last: center;text-decoration: none;display: inline-block;vertical-align: top;-webkit-text-size-adjust: none;" target="_blank" href="http://${variables.hostname}:${variables.port}/verify_token/${verify_token}">Verify your email</a>
                                        <!--<![endif]-->
                                       </th>
                                      </tr>
