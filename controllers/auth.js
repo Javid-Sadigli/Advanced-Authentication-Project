@@ -1,5 +1,7 @@
 const User = require('../models/user');
 
+const email_sender_controller = require('./email_sender');
+
 module.exports.GET_Sign_Up = function(req, res, next)
 {
     res.render('signup', {page_title : 'Sign Up'});
@@ -16,17 +18,17 @@ module.exports.POST_Sign_Up = function(req, res, next)
 
     if(password == confirm_password)
     {
-        User.findOne({email: email}).then(function(user)
-        {
-            if(!user)
-            {
-                return User.insertOne({email: email, password : password}); 
-            }
-        }).then(function(user)
-        {
-            // continue here 
-        });
-        
+        // User.findOne({email: email}).then(function(user)
+        // {
+        //     if(!user)
+        //     {
+        //         return User.insertOne({email: email, password : password}); 
+        //     }
+        // }).then(function(user)
+        // {
+            
+        // });
+        email_sender_controller.SEND_Verify_Token('asdsd', email); 
     }
     else 
     {
