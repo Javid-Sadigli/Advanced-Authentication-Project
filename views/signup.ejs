@@ -5,6 +5,9 @@
     <main>
         <div class="main-div">
             <h2 class="signup-h2">Sign Up</h2>
+            <% if (error_message) { %>
+                <p class="error-message"><%= error_message %></p>
+            <% } %>
             <form action="/signup" method="POST" class="signup-form">
                 <input type="text" name="email" placeholder="Email" autocomplete="off">
                 <input type="password" name="password" placeholder="Password" autocomplete="off">

@@ -7,7 +7,10 @@ const { response } = require('express');
 
 module.exports.GET_Sign_Up = function(req, res, next)
 {
-    res.render('signup', {page_title : 'Sign Up'});
+    res.render('signup', {
+        page_title : 'Sign Up',
+        error_message : req.flash('error')
+    });
 };
 module.exports.GET_Sign_In = function(req, res, next)
 {
@@ -37,10 +40,19 @@ module.exports.POST_Sign_Up = function(req, res, next)
                 }); 
                 return new_user.save();
             }
+            else
+            {
+                response_sent = true; 
+                req.flash('error', 'We have user with this email. Please use another email.');
+                res.redirect('/signup');
+            }
         }).then(function(user)
         {
-            res.redirect('/verify_info');
-            return email_sender_controller.SEND_Verify_Token(verify_token, email); 
+            if(!response_sent)
+            {
+                res.redirect('/verify_info');
+                return email_sender_controller.SEND_Verify_Token(verify_token, email); 
+            }
         }).catch(function(error)
         {
             console.log(error);
@@ -48,7 +60,8 @@ module.exports.POST_Sign_Up = function(req, res, next)
     }
     else 
     {
-        next();
+        req.flash('error', 'Your passwords do not match!');
+        res.redirect('/signup');
     }
 };
 module.exports.GET_Verify_Info = function(req, res, next)
@@ -61,6 +74,7 @@ module.exports.GET_Verified_Info = function(req, res, next)
 };
 module.exports.GET_Verify_Token = function(req, res, next)
 {
+    let response_sent = false; 
     const verify_token = req.params.verify_token; 
     User.findOne({
         'verify_token.token' : verify_token,
@@ -68,12 +82,23 @@ module.exports.GET_Verify_Token = function(req, res, next)
         verified : false
     }).then(function(user)
     {
-        user.verify_token = undefined;
-        user.verified = true; 
-        return user.save();
+        if(user)
+        {
+            user.verify_token = undefined;
+            user.verified = true; 
+            return user.save();
+        }
+        else
+        {
+            response_sent = true; 
+            next();
+        }
     }).then(function(user)
     {
-        res.redirect('/verified_info');
+        if(!response_sent) 
+        {
+            res.redirect('/verified_info');
+        }
     }).catch(function(error)
     {
         console.log(error);

@@ -7,6 +7,7 @@ const body_parser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const mongoddb_session_store = require('connect-mongodb-session')(session);
+const flash = require('connect-flash');
 
 // Controllers 
 const console_controller = require('./controllers/console');
@@ -33,6 +34,7 @@ app.use(session({
     saveUninitialized : false, 
     store : store
 })); 
+app.use(flash());
 
 /* Start handling */
 app.use(console_controller.LOG_Request);
@@ -41,6 +43,7 @@ app.use(auth_router);
 app.use(user_router);
 
 app.use(console_controller.LOG_Not_Found);
+app.use(main_controller.SEND_Error_Page);
 /* End handling */ 
 
 // Connect to database and start server

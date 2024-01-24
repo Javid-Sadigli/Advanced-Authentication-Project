@@ -18,3 +18,6 @@ a{
     background-color: var(--dark-gray-color);
     color: var(--main-white-color);
 }
+p{
+    width: 100%;
+}

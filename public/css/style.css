@@ -12,6 +12,10 @@
     transition: all 0.4s ease-in;
 }
 
+p{
+    margin: 0px;
+}
+
 a{
     text-decoration: none;
 }
