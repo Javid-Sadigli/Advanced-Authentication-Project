@@ -9,12 +9,15 @@ module.exports.GET_Sign_Up = function(req, res, next)
 {
     res.render('signup', {
         page_title : 'Sign Up',
-        error_message : req.flash('error')
+        error_message : req.flash('error')[0]
     });
 };
 module.exports.GET_Sign_In = function(req, res, next)
 {
-    res.render('signin', {page_title : 'Sign In'});
+    res.render('signin', {
+        page_title : 'Sign In',
+        error_message : req.flash('error')[0]
+    });
 };
 module.exports.POST_Sign_Up = function(req, res, next)
 {
@@ -23,45 +26,58 @@ module.exports.POST_Sign_Up = function(req, res, next)
     const confirm_password = req.body.confirm_password;
     let verify_token, response_sent = false; 
 
-    if(password == confirm_password)
+    if(!email)
     {
-        User.findOne({email: email}).then(function(user)
-        {
-            if(!user)
-            {
-                verify_token = crypto.randomBytes(32).toString('hex');
-                const new_user = new User({
-                    email : email, 
-                    password : password, 
-                    verify_token : {
-                        token : verify_token, 
-                        expiration_date : Date.now() + 3600000
-                    }
-                }); 
-                return new_user.save();
-            }
-            else
-            {
-                response_sent = true; 
-                req.flash('error', 'We have user with this email. Please use another email.');
-                res.redirect('/signup');
-            }
-        }).then(function(user)
-        {
-            if(!response_sent)
-            {
-                res.redirect('/verify_info');
-                return email_sender_controller.SEND_Verify_Token(verify_token, email); 
-            }
-        }).catch(function(error)
-        {
-            console.log(error);
-        });
+        req.flash('error', 'Email is required!');
+        return res.redirect('/signup');
+    }
+    else if(!password || !confirm_password)
+    {
+        req.flash('error', 'Password is required!');
+        return res.redirect('/signup');
     }
     else 
     {
-        req.flash('error', 'Your passwords do not match!');
-        res.redirect('/signup');
+        if(password == confirm_password)
+        {
+            User.findOne({email: email}).then(function(user)
+            {
+                if(!user)
+                {
+                    verify_token = crypto.randomBytes(32).toString('hex');
+                    const new_user = new User({
+                        email : email, 
+                        password : password, 
+                        verify_token : {
+                            token : verify_token, 
+                            expiration_date : Date.now() + 3600000
+                        }
+                    }); 
+                    return new_user.save();
+                }
+                else
+                {
+                    response_sent = true; 
+                    req.flash('error', 'We have user with this email. Please use another email.');
+                    res.redirect('/signup');
+                }
+            }).then(function(user)
+            {
+                if(!response_sent)
+                {
+                    res.redirect('/verify_info');
+                    return email_sender_controller.SEND_Verify_Token(verify_token, email); 
+                }
+            }).catch(function(error)
+            {
+                console.log(error);
+            });
+        }
+        else 
+        {
+            req.flash('error', 'Your passwords do not match!');
+            res.redirect('/signup');
+        }
     }
 };
 module.exports.GET_Verify_Info = function(req, res, next)
@@ -103,4 +119,48 @@ module.exports.GET_Verify_Token = function(req, res, next)
     {
         console.log(error);
     });
+};
+module.exports.POST_Sign_In = function(req, res, next)
+{
+    const email = req.body.email; 
+    const password = req.body.password;
+    let response_sent = false;
+
+    if(!email)
+    {
+        req.flash('error', 'Email is required!');
+        return res.redirect('/signin');
+    }
+    else if(!password)
+    {
+        req.flash('error', 'Password is required!');
+        return res.redirect('/signin');
+    }
+    else
+    {
+        User.findOne({
+            email : email, 
+            password : password
+        }).then(function(user)
+        {
+            if(user && user.verified)
+            {
+                req.session.user_id = user._id;
+                res.redirect('/'); 
+            }
+            else if(user)
+            {
+                req.flash('error', 'Your account is not verified!');
+                res.redirect('/signin');
+            }
+            else 
+            {
+                req.flash('error', 'Invalid email or password!');
+                res.redirect('/signin');
+            }
+        }).catch(function(error)
+        {
+            console.log(error);
+        });
+    }
 };

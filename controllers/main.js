@@ -1,3 +1,5 @@
+const User = require('../models/user');
+
 module.exports.SEND_Error_Page = function(req, res, next) 
 {
     res.send(`
@@ -24,4 +26,28 @@ module.exports.SEND_Error_Page = function(req, res, next)
         </body>
         </html>
     `);
+};
+
+module.exports.SET_Request_User = function(req, res, next)
+{
+    if(req.session.user_id)
+    {
+        User.findById(req.session.user_id).then(function(user)
+        {
+            if(user)
+            {
+                req.user = user;
+            }
+        }).then(function(user)
+        {
+            next();
+        }).catch(function(error)
+        {
+            console.log(error);
+        });
+    }
+    else
+    {
+        next();
+    }
 };

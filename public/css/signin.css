@@ -12,6 +12,11 @@
 .sign-up-a{
     font-size: 14px;
 }
+.error-message{
+    color: darkred;
+    text-align: center;
+}
+
 
 input
 {
