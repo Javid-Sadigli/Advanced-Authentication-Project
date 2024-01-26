@@ -16,8 +16,12 @@
                 profile photos, and so on. 
             </p>
             <div class="home-a-div">
-                <a href="/signup" class="home-signup-a">Sign Up</a>
-                <a href="/signin" class="home-signin-a">Sign in</a>
+                <% if (logged_in) { %>
+                    <a href="/profile" class="home-profile-a">Profile</a>
+                <% } else { %>
+                    <a href="/signup" class="home-signup-a">Sign Up</a>
+                    <a href="/signin" class="home-signin-a">Sign in</a>
+                <% } %>
             </div>
         </div>
     </main> 

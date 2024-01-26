@@ -7,6 +7,10 @@ const { response } = require('express');
 
 module.exports.GET_Sign_Up = function(req, res, next)
 {
+    if(req.logged_in)
+    {
+        return next();
+    }
     res.render('signup', {
         page_title : 'Sign Up',
         error_message : req.flash('error')[0]
@@ -14,6 +18,10 @@ module.exports.GET_Sign_Up = function(req, res, next)
 };
 module.exports.GET_Sign_In = function(req, res, next)
 {
+    if(req.logged_in)
+    {
+        return next();
+    }
     res.render('signin', {
         page_title : 'Sign In',
         error_message : req.flash('error')[0]
@@ -65,6 +73,7 @@ module.exports.POST_Sign_Up = function(req, res, next)
             {
                 if(!response_sent)
                 {
+                    req.flash('verify_email', email);
                     res.redirect('/verify_info');
                     return email_sender_controller.SEND_Verify_Token(verify_token, email); 
                 }
@@ -82,10 +91,23 @@ module.exports.POST_Sign_Up = function(req, res, next)
 };
 module.exports.GET_Verify_Info = function(req, res, next)
 {
-    res.render('verify_info', {page_title : 'Info'});
+    const verify_email = req.flash('verify_email')[0]; 
+    if(!verify_email)
+    {
+        return next();
+    }
+    res.render('verify_info', {
+        page_title : 'Info',
+        verify_email : verify_email
+    });
 };
 module.exports.GET_Verified_Info = function(req, res, next)
 {
+    const verified = req.flash('verified')[0];
+    if(!verified)
+    {
+        return next();
+    }
     res.render('verified_info', {page_title : 'Info'});
 };
 module.exports.GET_Verify_Token = function(req, res, next)
@@ -113,6 +135,7 @@ module.exports.GET_Verify_Token = function(req, res, next)
     {
         if(!response_sent) 
         {
+            req.flash('verified', true);
             res.redirect('/verified_info');
         }
     }).catch(function(error)

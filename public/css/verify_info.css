@@ -9,7 +9,13 @@ a{
     margin-right: -1px;
     transition-duration: 0.3s;
 }
+p{
+    width: 100%;
+}
 
+.main-div:hover i{
+    color: var(--main-black-color);
+}
 .main-div:hover a{
     border: 2px solid var(--main-black-color);
     color: var(--main-black-color);
@@ -18,6 +24,4 @@ a{
     background-color: var(--dark-gray-color);
     color: var(--main-white-color);
 }
-p{
-    width: 100%;
-}
+

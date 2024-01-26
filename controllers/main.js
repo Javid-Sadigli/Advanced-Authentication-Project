@@ -8,7 +8,7 @@ module.exports.SEND_Error_Page = function(req, res, next)
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>404 Not foun</title>
+            <title>404 Not found</title>
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&display=swap');
                 body{
@@ -36,6 +36,7 @@ module.exports.SET_Request_User = function(req, res, next)
         {
             if(user)
             {
+                req.logged_in = true;
                 req.user = user;
             }
         }).then(function(user)
@@ -50,4 +51,11 @@ module.exports.SET_Request_User = function(req, res, next)
     {
         next();
     }
+};
+
+module.exports.SET_Local_Variables = function(req, res, next)
+{
+    res.locals.logged_in = req.logged_in; 
+    res.locals.user = req.user;
+    next();
 };

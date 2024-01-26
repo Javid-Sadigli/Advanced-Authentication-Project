@@ -101,6 +101,18 @@ h2{
     margin-left: -1px;
     transition-duration: 0.3s;
 }
+.home-profile-a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    min-width: 140px;
+    height: 50px;
+    border: 2px solid var(--main-white-color);
+    border-radius: 8px;
+    margin-left: -1px;
+    transition-duration: 0.3s;
+}
 
 .main-div:hover{
     background-color: var(--main-white-color);
@@ -112,13 +124,15 @@ h2{
 }
 
 .main-div:hover .home-a-div .home-signin-a, 
-.main-div:hover .home-a-div .home-signup-a{
+.main-div:hover .home-a-div .home-signup-a, 
+.main-div:hover .home-a-div .home-profile-a{
     border: 2px solid var(--main-black-color);
     color: var(--main-black-color);
 }
 
 .main-div:hover .home-a-div .home-signin-a:hover, 
-.main-div:hover .home-a-div .home-signup-a:hover{
+.main-div:hover .home-a-div .home-signup-a:hover, 
+.main-div:hover .home-a-div .home-profile-a:hover{
     background-color: var(--dark-gray-color);
     color: var(--main-white-color);
 }

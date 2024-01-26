@@ -40,6 +40,7 @@ app.use(flash());
 app.use(console_controller.LOG_Request);
 
 app.use(main_controller.SET_Request_User); 
+app.use(main_controller.SET_Local_Variables);
 
 app.use(auth_router);
 app.use(user_router);

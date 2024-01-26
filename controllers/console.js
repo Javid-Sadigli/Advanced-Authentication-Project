@@ -7,9 +7,11 @@ const Colors = {
 
 module.exports.LOG_Request = function(req,res,next) 
 {
-    
-    console.log(Colors.WHITE + `${req.method.toUpperCase()} request to ${req.url}`);
-    next();
+    if(req.url != '/favicon.ico')
+    {
+        console.log(Colors.WHITE + `${req.method.toUpperCase()} request to ${req.url}`);
+        next();
+    }   
 };
 
 module.exports.LOG_Not_Found = function(req, res, next)  
