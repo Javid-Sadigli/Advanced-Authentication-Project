@@ -1,9 +1,29 @@
 <%- include('includes/head.ejs') %>
-
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
     <main>
-
+        <div class="main-div">
+            <h2 class="profile-h2">
+                Your profile
+            </h2>
+            <div class="profile-infos-div">
+                <div class="email-div">
+                    <span class="email-span">Email : </span>
+                    <a href="#" class="email-a"><%= user.email %></a>
+                </div>
+                <div class="password-div">
+                    <span class="password-span">Password : </span>
+                    <a href="#" class="password-a">
+                        <% for( let i = 0; i < user.password.length; i++ ) { %> • <% } %>
+                    </a>
+                </div>
+            </div>
+            <a href="/logout" class="logout-a">
+                Log out
+            </a>
+            
+        </div>
     </main>
 </body>
 </html>

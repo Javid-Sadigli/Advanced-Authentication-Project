@@ -8,6 +8,7 @@ module.exports.SEND_Error_Page = function(req, res, next)
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="shortcut icon" href="/assets/icons/favicon.ico">
             <title>404 Not found</title>
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&display=swap');
@@ -52,7 +53,6 @@ module.exports.SET_Request_User = function(req, res, next)
         next();
     }
 };
-
 module.exports.SET_Local_Variables = function(req, res, next)
 {
     res.locals.logged_in = req.logged_in; 

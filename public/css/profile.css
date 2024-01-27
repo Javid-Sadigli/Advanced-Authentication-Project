@@ -1,0 +1,48 @@
+.profile-infos-div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.email-div, .password-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 400px;
+}
+.email-a, .password-a{
+    width: 250px;
+    text-align: left;
+}
+.email-span, .password-span {
+    width: 100px;
+}
+.logout-a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    min-width: 140px;
+    height: 50px;
+    border: 2px solid var(--main-white-color);
+    border-radius: 8px;
+    transition-duration: 0.3s;
+}
+
+.main-div:hover *{
+    color: var(--main-black-color);
+}
+
+.main-div:hover .logout-a{
+    color: var(--main-black-color);
+    border-color: var(--main-black-color);
+}
+
+.main-div:hover .logout-a:hover{
+    background-color: var(--dark-gray-color);
+    color: var(--main-white-color);
+}
