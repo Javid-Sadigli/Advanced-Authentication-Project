@@ -9,6 +9,7 @@
                 <p class="error-message"><%= error_message %></p>
             <% } %>
             <form action="/signup" method="POST" class="signup-form">
+                <input type="hidden" name="_csrf" value="<%= csrf_token %>">
                 <input type="text" name="email" placeholder="Email" autocomplete="off">
                 <input type="password" name="password" placeholder="Password" autocomplete="off">
                 <input type="password" name="confirm_password" placeholder="Confirm Password" autocomplete="off">

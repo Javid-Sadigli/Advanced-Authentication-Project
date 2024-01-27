@@ -40,7 +40,7 @@ module.exports.SET_Request_User = function(req, res, next)
                 req.logged_in = true;
                 req.user = user;
             }
-        }).then(function(user)
+        }).then(function()
         {
             next();
         }).catch(function(error)
@@ -57,5 +57,6 @@ module.exports.SET_Local_Variables = function(req, res, next)
 {
     res.locals.logged_in = req.logged_in; 
     res.locals.user = req.user;
+    res.locals.csrf_token = req.csrfToken();
     next();
 };

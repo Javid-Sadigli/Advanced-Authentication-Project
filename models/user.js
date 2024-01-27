@@ -19,6 +19,10 @@ const User = new Schema({
     verify_token : {
         token : String, 
         expiration_date : Date
+    }, 
+    password_reset_token : {
+        token : String, 
+        expiration_date : Date
     }
 }); 
 

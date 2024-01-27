@@ -4,10 +4,12 @@ const variables = require('./variables');
 const express = require('express');
 const mongoose = require('mongoose');
 const body_parser = require('body-parser');
+const cookie_parser = require('cookie-parser');
 const path = require('path');
 const session = require('express-session');
 const mongoddb_session_store = require('connect-mongodb-session')(session);
 const flash = require('connect-flash');
+const csrf = require('tiny-csrf');
 
 // Controllers 
 const console_controller = require('./controllers/console');
@@ -27,6 +29,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(body_parser.urlencoded({extended : false})); 
+app.use(cookie_parser('my-cookie-parser-secret'));
 app.use(express.static(path.join(variables.main_dir, 'public')));
 app.use(session({
     secret : 'advanced-authentication-project', 
@@ -35,6 +38,7 @@ app.use(session({
     store : store
 })); 
 app.use(flash());
+app.use(csrf("__T_H_I_S__IS__MY__SECRET__KEY__", ["POST"]));
 
 /* Start handling */
 app.use(console_controller.LOG_Request);

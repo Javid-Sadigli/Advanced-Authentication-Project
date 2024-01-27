@@ -6,7 +6,7 @@ module.exports.GET_Profile = function(req, res, next)
 {
     if(!req.logged_in)
     {
-        return next();
+        return res.redirect('/signin');
     }
     res.render('profile', {page_title : 'Profile'});
 }; 
