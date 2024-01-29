@@ -187,3 +187,7 @@ module.exports.POST_Sign_In = function(req, res, next)
         });
     }
 };
+module.exports.GET_Password_Reset_Form = function(req, res, next)
+{
+    res.render('password_reset_form', {page_title : 'Reset your password'});
+}; 

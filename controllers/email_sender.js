@@ -350,3 +350,13 @@ module.exports.SEND_Verify_Token = function(verify_token, email)
     });
 };
 
+module.exports.SEND_Password_Reset_Token = function(password_reset_token, email)
+{
+    return transporter.sendMail({
+        to : email, 
+        from : sendgrid_variables.sender, 
+        subject : 'Reset your password', 
+        html : `
+        `
+    }); 
+};
