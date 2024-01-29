@@ -189,5 +189,53 @@ module.exports.POST_Sign_In = function(req, res, next)
 };
 module.exports.GET_Password_Reset_Form = function(req, res, next)
 {
-    res.render('password_reset_form', {page_title : 'Reset your password'});
+    res.render('password_reset_form', {
+        page_title : 'Reset your password',
+        error_message : req.flash('error')[0]
+    });
 }; 
+module.exports.POST_Password_Reset_Form = function(req, res, next)
+{
+    let response_sent = false, my_user, password_reset_token;
+    const email = req.body.email;
+    
+    if(!email)
+    {
+        req.flash('error', 'Email is required!');
+        return res.redirect('/password_reset_form');
+    }
+    
+    User.findOne({
+        email : email
+    }).then(function(user)
+    {
+        if(user && user.verified)
+        {
+            password_reset_token = crypto.randomBytes(32).toString('hex');
+            user.password_reset_token = {
+                token : password_reset_token, 
+                expiration_date : Date.now() + 3600000
+            };
+            return user.save();
+        }
+        else
+        {
+            req.flash('error', "Can't find user with this email. Please sign up or verify your account.");
+            response_sent = true; 
+            res.redirect('/password_reset_form');
+        }
+    }).then(function(user)
+    {
+        if(!response_sent)
+        {
+            response_sent = true; 
+            email_sender_controller.SEND_Password_Reset_Token(password_reset_token, email);
+            res.redirect('/password_reset_email_info'); 
+             
+        }
+    }).catch(function(error)
+    {
+        console.log(error);
+    });
+
+};

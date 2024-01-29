@@ -10,6 +10,7 @@ router.get('/password_reset_form', auth_controller.GET_Password_Reset_Form);
 
 router.post('/signup', auth_controller.POST_Sign_Up);
 router.post('/signin', auth_controller.POST_Sign_In);
+router.post('/password_reset_form', auth_controller.POST_Password_Reset_Form);
 
 router.get('/verify_token/:verify_token', auth_controller.GET_Verify_Token);
 
