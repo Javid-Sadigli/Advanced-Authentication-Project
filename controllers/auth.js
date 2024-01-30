@@ -4,6 +4,7 @@ const User = require('../models/user');
 
 const email_sender_controller = require('./email_sender');
 const { response } = require('express');
+const { request } = require('http');
 
 module.exports.GET_Sign_Up = function(req, res, next)
 {
@@ -229,13 +230,116 @@ module.exports.POST_Password_Reset_Form = function(req, res, next)
         if(!response_sent)
         {
             response_sent = true; 
+            req.flash('password_reset_email', email); 
+            res.redirect('/password_reset_info'); 
             email_sender_controller.SEND_Password_Reset_Token(password_reset_token, email);
-            res.redirect('/password_reset_email_info'); 
-             
         }
     }).catch(function(error)
     {
         console.log(error);
     });
-
 };
+module.exports.GET_Password_Reset_Info = function(req, res, next) 
+{
+    const password_reset_email = req.flash('password_reset_email')[0]; 
+    if(password_reset_email)
+    {
+        return res.render('password_reset_info', {
+            page_title : 'Info', 
+            password_reset_email : password_reset_email
+        });
+    }
+    next();
+};
+module.exports.GET_Password_Reset_Token = function(req, res, next)
+{
+    const password_reset_token = req.params.password_reset_token; 
+    
+    User.findOne({
+        'password_reset_token.token' : password_reset_token, 
+        'password_reset_token.expiration_date' : {$gt : Date.now()}
+    }).then(function(user)
+    {
+        if(user)
+        {
+            req.flash('user_id', user._id); 
+            res.redirect('/password_reset');
+        }
+        else 
+        {
+            next();
+        }
+    }).catch(function(error)
+    {
+        console.log(error);
+    }); 
+};
+
+module.exports.GET_Password_Reset = function(req, res, next)
+{
+    const user_id = req.flash('user_id')[0];
+    const error_message = req.flash('error')[0]; 
+
+    if(!user_id) 
+    {
+        return next(); 
+    }
+    User.findById(user_id).then(function(user)
+    {
+        if(user)
+        {
+            res.render('password_reset', {
+                page_title : 'Reset password', 
+                user_id : user_id, 
+                error_message : error_message
+            }); 
+        }
+        else 
+        {
+            next(); 
+        }
+    }).catch(function(error)
+    {
+        console.log(error);
+    });
+};
+
+module.exports.POST_Password_Reset = function(req, res, next)
+{
+    const password = req.body.password;
+    const confirm_password = req.body.confirm_password;
+    const user_id = req.body.user_id;
+    let response_sent = false; 
+
+    if(password != confirm_password) 
+    {
+        req.flash('user_id', user_id); 
+        req.flash('error', 'Your passwords do not match!'); 
+        return res.redirect('/password_reset'); 
+    }
+
+    User.findById(user_id).then(function(user)
+    {
+        if(user)
+        {
+            user.password = password;
+            user.password_reset_token = undefined; 
+            return user.save();
+        }
+        else 
+        {
+            response_sent = true; 
+            next();
+        }
+    }).then(function(user)
+    {
+        if(!response_sent)
+        {
+            req.flash('password_resetted', true); 
+            res.redirect('/password_resetted_info'); 
+        }
+    }).catch(function(error)
+    {
+        console.log(error);
+    }); 
+}; 
