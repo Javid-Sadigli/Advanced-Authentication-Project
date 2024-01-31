@@ -343,3 +343,12 @@ module.exports.POST_Password_Reset = function(req, res, next)
         console.log(error);
     }); 
 }; 
+
+module.exports.GET_Password_Resetted_Info = function(req, res, next)
+{
+    if(req.flash('password_resetted')[0])
+    {
+        return res.render('password_resetted_info', {page_title : 'Info'}); 
+    }
+    next();
+};
