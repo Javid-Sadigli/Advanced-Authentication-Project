@@ -3,8 +3,6 @@ const crypto = require('crypto');
 const User = require('../models/user');
 
 const email_sender_controller = require('./email_sender');
-const { response } = require('express');
-const { request } = require('http');
 
 module.exports.GET_Sign_Up = function(req, res, next)
 {
@@ -123,9 +121,7 @@ module.exports.GET_Verify_Token = function(req, res, next)
     {
         if(user)
         {
-            user.verify_token = undefined;
-            user.verified = true; 
-            return user.save();
+            return user.verify();
         }
         else
         {
@@ -197,7 +193,7 @@ module.exports.GET_Password_Reset_Form = function(req, res, next)
 }; 
 module.exports.POST_Password_Reset_Form = function(req, res, next)
 {
-    let response_sent = false, my_user, password_reset_token;
+    let response_sent = false, password_reset_token;
     const email = req.body.email;
     
     if(!email)
@@ -213,11 +209,10 @@ module.exports.POST_Password_Reset_Form = function(req, res, next)
         if(user && user.verified)
         {
             password_reset_token = crypto.randomBytes(32).toString('hex');
-            user.password_reset_token = {
-                token : password_reset_token, 
-                expiration_date : Date.now() + 3600000
-            };
-            return user.save();
+            return user.set_password_reset_token(
+                password_reset_token, 
+                Date.now() + 3600000
+            );
         }
         else
         {
@@ -322,9 +317,7 @@ module.exports.POST_Password_Reset = function(req, res, next)
     {
         if(user)
         {
-            user.password = password;
-            user.password_reset_token = undefined; 
-            return user.save();
+            return user.reset_password(password); 
         }
         else 
         {

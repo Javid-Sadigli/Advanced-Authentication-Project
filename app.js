@@ -18,16 +18,18 @@ const main_controller = require('./controllers/main');
 // Routes 
 const user_router = require('./routes/user');
 const auth_router = require('./routes/auth');
-
+ 
 const app = express(); 
 const store = new mongoddb_session_store({
     uri : variables.DATABASE_URI, 
     collection :'sessions'
 });
 
+// Settings  
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+// Using the needed modules 
 app.use(body_parser.urlencoded({extended : false})); 
 app.use(cookie_parser('my-cookie-parser-secret'));
 app.use(express.static(path.join(variables.main_dir, 'public')));

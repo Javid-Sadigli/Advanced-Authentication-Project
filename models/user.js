@@ -26,4 +26,27 @@ const User = new Schema({
     }
 }); 
 
+User.methods.verify = function()
+{
+    this.verified = true; 
+    this.verify_token = undefined;
+    return this.save();
+};
+
+User.methods.set_password_reset_token = function(password_reset_token, expiration_date)
+{
+    this.password_reset_token = {
+        token : password_reset_token, 
+        expiration_date : expiration_date
+    }; 
+    return this.save();
+}; 
+
+User.methods.reset_password = function(password)
+{
+    this.password = password; 
+    this.password_reset_token = undefined;
+    return this.save();
+}; 
+
 module.exports = mongoose.model('User', User); 
