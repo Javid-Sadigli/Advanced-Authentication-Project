@@ -79,6 +79,7 @@ module.exports.POST_Sign_Up = function(req, res, next)
             }).catch(function(error)
             {
                 console.log(error);
+                next();
             });
         }
         else 
@@ -138,6 +139,7 @@ module.exports.GET_Verify_Token = function(req, res, next)
     }).catch(function(error)
     {
         console.log(error);
+        next();
     });
 };
 module.exports.POST_Sign_In = function(req, res, next)
@@ -181,15 +183,36 @@ module.exports.POST_Sign_In = function(req, res, next)
         }).catch(function(error)
         {
             console.log(error);
+            next();
         });
     }
 };
 module.exports.GET_Password_Reset_Form = function(req, res, next)
 {
-    res.render('password_reset_form', {
-        page_title : 'Reset your password',
-        error_message : req.flash('error')[0]
-    });
+    if(req.logged_in)
+    {
+        let password_reset_token = crypto.randomBytes(32).toString('hex');; 
+        req.user.set_password_reset_token(
+            password_reset_token, 
+            Date.now() + 3600000
+        ).then(function(user)
+        {
+            req.flash('password_reset_email', user.email); 
+            res.redirect('/password_reset_info'); 
+            email_sender_controller.SEND_Password_Reset_Token(password_reset_token, user.email);
+        }).catch(function(error)
+        {
+            console.log(error);
+            next();
+        });
+    }
+    else
+    {
+        res.render('password_reset_form', {
+            page_title : 'Reset your password',
+            error_message : req.flash('error')[0]
+        });
+    }
 }; 
 module.exports.POST_Password_Reset_Form = function(req, res, next)
 {
@@ -232,6 +255,7 @@ module.exports.POST_Password_Reset_Form = function(req, res, next)
     }).catch(function(error)
     {
         console.log(error);
+        next();
     });
 };
 module.exports.GET_Password_Reset_Info = function(req, res, next) 
@@ -267,6 +291,7 @@ module.exports.GET_Password_Reset_Token = function(req, res, next)
     }).catch(function(error)
     {
         console.log(error);
+        next();
     }); 
 };
 
@@ -296,6 +321,7 @@ module.exports.GET_Password_Reset = function(req, res, next)
     }).catch(function(error)
     {
         console.log(error);
+        next();
     });
 };
 
@@ -334,6 +360,7 @@ module.exports.POST_Password_Reset = function(req, res, next)
     }).catch(function(error)
     {
         console.log(error);
+        next();
     }); 
 }; 
 
