@@ -33,6 +33,16 @@ User.methods.verify = function()
     return this.save();
 };
 
+User.methods.set_verify_token = function(token, expiration_date)
+{
+    this.verify_token = {
+        token: token,
+        expiration_date : expiration_date
+    };
+    this.verified = false; 
+    return this.save();
+};
+
 User.methods.set_password_reset_token = function(password_reset_token, expiration_date)
 {
     this.password_reset_token = {

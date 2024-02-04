@@ -7,6 +7,8 @@ router.get('/profile', user_controller.GET_Profile);
 router.get('/logout', user_controller.GET_Log_Out);
 router.get('/enter_password', user_controller.GET_Enter_Password);
 router.get('/change_password', user_controller.GET_Change_Password);
+router.get('/change_email', user_controller.GET_Change_Email); 
+router.get('/email_reset', user_controller.GET_Email_Reset);
 
 router.post('/enter_password', user_controller.POST_Enter_Password);
 
