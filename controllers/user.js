@@ -116,11 +116,15 @@ module.exports.POST_Enter_Password = function(req, res, next)
 module.exports.GET_Email_Reset = function(req, res, next) 
 {
     const email_reset = req.flash('email_reset')[0];
+    const error_message = req.flash('error')[0];
 
     if(!req.logged_in || !email_reset) 
     {
         return next();
     }
     
-    return res.render('email_reset', {page_title : 'Reset email'}); 
+    return res.render('email_reset', {
+        page_title : 'Reset email', 
+        error_message : error_message
+    }); 
 };

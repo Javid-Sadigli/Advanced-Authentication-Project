@@ -1,21 +1,21 @@
 <%- include('includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/password_reset.css">
+    <link rel="stylesheet" href="/css/email_reset.css">
 </head>
 <body>
     <main>
         <div class="main-div">
-            <h2 class="password-reset-h2">
+            <h2 class="email-reset-h2">
                 Enter your new email
             </h2>
             <% if (error_message) { %>
                 <p class="error-message"><%= error_message %></p>
             <% } %>
-            <p class="password-reset-p">
+            <p class="email-reset-p">
                 Dear user. Please enter your new email to 
                 reset your account's email. 
             </p>
             
-            <form action="/email_reset" method="post" class="password-reset-form">
+            <form action="/email_reset" method="post" class="email-reset-form">
                 <input type="hidden" name="_csrf" value="<%= csrf_token %>">
                 <input type="text" name="email" placeholder="Email" autocomplete="off">
                 <button type="submit">Change email</button>
