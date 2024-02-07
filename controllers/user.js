@@ -1,3 +1,9 @@
+const crypto = require('crypto');
+
+const email_sender_controller = require('./email_sender');
+
+const User = require('../models/user');
+
 module.exports.GET_Home = function(req, res, next)
 {
     res.render('home', {page_title : 'Home'});
@@ -16,14 +22,8 @@ module.exports.GET_Log_Out = function(req, res, next)
     {
         return next();
     }
-    req.session.destroy(function(err)
-    {
-        if(err)
-        {
-            console.log(err);
-        }
-        res.redirect('/');
-    });
+    req.session.user_id = undefined;
+    res.redirect('/');
 };
 
 module.exports.GET_Change_Password = function(req, res, next)
@@ -127,4 +127,66 @@ module.exports.GET_Email_Reset = function(req, res, next)
         page_title : 'Reset email', 
         error_message : error_message
     }); 
+};
+
+module.exports.POST_Email_Reset = function(req, res, next)
+{
+    const email = req.body.email;
+    let verify_token, response_sent = false; 
+
+    if(email.indexOf('@') == -1)
+    {
+        req.flash('email_reset', true); 
+        req.flash('error', 'Please enter a valid email address!'); 
+        return res.redirect('/email_reset');
+    }
+
+    if(email == req.user.email)
+    {
+        req.flash('email_reset', true); 
+        req.flash('error', 'This email is your current email. Please enter another email!'); 
+        return res.redirect('/email_reset');
+    }
+    
+    User.findOne({
+        email : email
+    }).then(function(user)
+    {
+        if(user)
+        {
+            req.flash('email_reset', true); 
+            req.flash('error', 'We have a user with that email. Please enter another email!'); 
+            response_sent = true; 
+            res.redirect('/email_reset');
+        }
+        else 
+        {
+            verify_token = crypto.randomBytes(32).toString('hex');
+            return req.user.set_new_email(email); 
+        }
+    }).then(function(user)
+    {
+        if(verify_token)
+        {
+            return user.set_verify_token(
+                verify_token, 
+                Date.now() + 3600000
+            ); 
+        }
+    }).then(function(user)
+    {   
+        if(!response_sent)
+        {
+            req.session.user_id = undefined;
+            req.flash('verify_email', email); 
+            res.redirect('/verify_info');
+            email_sender_controller.SEND_Verify_Token(
+                verify_token, email
+            ); 
+        }
+    }).catch(function(error)
+    {
+        console.log(error);
+        next();
+    });
 };

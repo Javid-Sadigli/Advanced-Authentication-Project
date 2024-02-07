@@ -11,5 +11,6 @@ router.get('/change_email', user_controller.GET_Change_Email);
 router.get('/email_reset', user_controller.GET_Email_Reset);
 
 router.post('/enter_password', user_controller.POST_Enter_Password);
+router.post('/email_reset', user_controller.POST_Email_Reset);
 
 module.exports = router;

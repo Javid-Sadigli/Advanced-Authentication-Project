@@ -38,6 +38,11 @@ module.exports.POST_Sign_Up = function(req, res, next)
         req.flash('error', 'Email is required!');
         return res.redirect('/signup');
     }
+    else if (email.indexOf('@') == - 1)
+    {
+        req.flash('error', 'Please enter a valid email address!');
+        return res.redirect('/signup');
+    }
     else if(!password || !confirm_password)
     {
         req.flash('error', 'Password is required!');

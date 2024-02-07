@@ -57,6 +57,12 @@ User.methods.reset_password = function(password)
     this.password = password; 
     this.password_reset_token = undefined;
     return this.save();
-}; 
+};
+
+User.methods.set_new_email = function(email)
+{
+    this.email = email; 
+    return this.save();
+};
 
 module.exports = mongoose.model('User', User); 
