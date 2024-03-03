@@ -1,6 +1,7 @@
 const router = require('express').Router(); 
 
 const auth_controller = require('../controllers/auth');
+const google_auth_controller = require('../controllers/google_auth');
 
 router.get('/signup', auth_controller.GET_Sign_Up);
 router.get('/signin', auth_controller.GET_Sign_In);
@@ -10,6 +11,8 @@ router.get('/password_reset_form', auth_controller.GET_Password_Reset_Form);
 router.get('/password_reset_info', auth_controller.GET_Password_Reset_Info);
 router.get('/password_reset', auth_controller.GET_Password_Reset); 
 router.get('/password_resetted_info', auth_controller.GET_Password_Resetted_Info);
+router.get('/google_auth', google_auth_controller.GET_Google_Auth); 
+router.get('/google_auth/callback', google_auth_controller.GET_Google_Auth_Callback);
 
 router.post('/signup', auth_controller.POST_Sign_Up);
 router.post('/signin', auth_controller.POST_Sign_In);
