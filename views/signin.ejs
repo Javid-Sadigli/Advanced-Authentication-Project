@@ -2,6 +2,12 @@
     <link rel="stylesheet" href="/css/signin.css">
 </head>
 <body>
+    <script>
+        function redirect_to_Google_Auth()
+        {
+            window.location.href = '/google_auth';
+        }
+    </script>
     <main>
         <div class="main-div">
             <h2 class="signin-h2">Sign In</h2>
@@ -13,6 +19,12 @@
                 <input type="text" name="email" placeholder="Email" autocomplete="off">
                 <input type="password" name="password" placeholder="Password" autocomplete="off">
                 <button type="submit">Sign In</button>
+                <button type="button" onclick="redirect_to_Google_Auth()">
+                    <div class="google-icon">
+                        <img src="/assets/icons/google.ico" alt="Google Logo">
+                    </div>
+                    <span>Sign In with Google</span>
+                </button>
                 <a href="/signup" class="sign-up-a">You are the new one? Sign up!</a>
                 <a href="/password_reset_form" class="password-reset-a">Forgot your password?</a>
             </form>

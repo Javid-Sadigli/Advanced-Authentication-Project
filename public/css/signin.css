@@ -17,7 +17,6 @@
     text-align: center;
 }
 
-
 input
 {
     width: 100%;   
@@ -33,7 +32,8 @@ input::placeholder{
     transition: all 0.5s ease-in;
     color: var(--main-white-color);
 }
-button[type="submit"]
+button[type="submit"], 
+button[type="button"]
 {
     width: 100%;
     height: 40px;
@@ -43,6 +43,19 @@ button[type="submit"]
     color: var(--main-white-color);
     cursor: pointer;
     transition-duration: 0.3s;
+}
+ 
+button[type="button"]
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.google-icon{
+    width: 23px;
+    height: 23px;
 }
 
 .main-div:hover form a{
@@ -75,11 +88,19 @@ button[type="submit"]
     color: var(--main-white-color);
 }
 
-.main-div:hover form button[type="submit"]{
+.main-div:hover form button[type="submit"],
+.main-div:hover form button[type="button"]{
     border-color: var(--main-black-color);
     color: var(--main-black-color);
 }
-.main-div:hover form button[type="submit"]:hover{
+.main-div:hover form button[type="button"] span{
+    color: var(--main-black-color);
+}
+.main-div:hover form button[type="submit"]:hover, 
+.main-div:hover form button[type="button"]:hover{
     background-color: var(--dark-gray-color);
+    color: var(--main-white-color);
+}
+.main-div:hover form button[type="button"]:hover span{
     color: var(--main-white-color);
 }
