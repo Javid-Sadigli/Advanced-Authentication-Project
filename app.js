@@ -1,3 +1,4 @@
+// Application variables
 const variables = require('./variables');
 
 // Modules
