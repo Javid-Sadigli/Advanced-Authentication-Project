@@ -1,18 +1,18 @@
 const path = require('path');
 
 module.exports = {
-    hostname : "localhost",
-    port : 3000, 
-    DATABASE_URI : 'mongodb+srv://mycompany:mycompany@cluster0.guuhffm.mongodb.net/myauthproject?retryWrites=true&w=majority', 
+    hostname : "localhost", // If you want, you can change
+    port : 3000,  // If you want, you can change
+    DATABASE_URI : 'YOUR_DATABASE_URI', 
     main_dir : path.dirname(require.main.filename),
     SendGrid : {
-        api_key : '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', 
-        sender : 'javidsadiglimongodbclusters@gmail.com'
+        api_key : 'YOUR_SENDGRID_API_KEY', 
+        sender : 'YOUR_SENDGRID_SENDER'
     }, 
     GoogleClient : {
         OAuth : {
-            client_id : '456821147939-gjf4mm22ifmrcd6n7hgeqgu356g70aoa.apps.googleusercontent.com', 
-            client_secret : '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'
+            client_id : 'YOUR_GOOGLE_OAUTH_CLIENT_ID', 
+            client_secret : 'YOUR_GOOGLE_OAUTH_CLIENT_SECRET'
         }
     }
 };
