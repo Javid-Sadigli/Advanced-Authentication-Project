@@ -267,6 +267,7 @@ module.exports.GET_Password_Reset_Form = function(req, res, next)
             email_sender_controller.SEND_Password_Reset_Token(password_reset_token, user.email);
         }).catch(function(error)
         {
+            // If we got an error, we log the error to see it.
             console.log(error);
             next();
         });
@@ -313,7 +314,7 @@ module.exports.POST_Password_Reset_Form = function(req, res, next)
         }
         else
         {
-            
+            // If the user doesn't exist, we redirect to the password reset form page with an error message. 
             req.flash('error', "Can't find user with this email. Please sign up or verify your account.");
             response_sent = true; 
             res.redirect('/password_reset_form');
@@ -322,17 +323,23 @@ module.exports.POST_Password_Reset_Form = function(req, res, next)
     {
         if(!response_sent)
         {
+            // If we haven't sent a response yet, we inform the user to reset his password
             response_sent = true; 
             req.flash('password_reset_email', email); 
             res.redirect('/password_reset_info'); 
+
+            // And we send the password reset email to the user's email address
             email_sender_controller.SEND_Password_Reset_Token(password_reset_token, email);
         }
     }).catch(function(error)
     {
+        // If we got an error, we log the error to see it.
         console.log(error);
         next();
     });
 };
+
+// GET request to /password_reset_info
 module.exports.GET_Password_Reset_Info = function(req, res, next) 
 {
     const password_reset_email = req.flash('password_reset_email')[0]; 
@@ -343,12 +350,18 @@ module.exports.GET_Password_Reset_Info = function(req, res, next)
             password_reset_email : password_reset_email
         });
     }
+
+    // If the password_reset_email is undefined, then the user will get 404 not found error.
     next();
 };
+
+// GET request to /password_reset_token 
 module.exports.GET_Password_Reset_Token = function(req, res, next)
 {
+    // Getting the values from the request parameters
     const password_reset_token = req.params.password_reset_token; 
     
+    // Search for the user that has the given password reset token and not expired.
     User.findOne({
         'password_reset_token.token' : password_reset_token, 
         'password_reset_token.expiration_date' : {$gt : Date.now()}
@@ -356,33 +369,42 @@ module.exports.GET_Password_Reset_Token = function(req, res, next)
     {
         if(user)
         {
+            // If we found the user, then we redirect to password reset page.
             req.flash('user_id', user._id); 
             res.redirect('/password_reset');
         }
         else 
         {
+            // Otherwise, the user will get a 404 not found error.
             next();
         }
     }).catch(function(error)
     {
+        // If we got an error, we log the error to see it.
         console.log(error);
         next();
     }); 
 };
 
+// GET request to /password_reset
 module.exports.GET_Password_Reset = function(req, res, next)
 {
+    // Getting values from flash 
     const user_id = req.flash('user_id')[0];
     const error_message = req.flash('error')[0]; 
 
     if(!user_id) 
     {
+        // If the user_id is undefined, the user will get a 404 not found error
         return next(); 
     }
+
+    // We search for the user by his id
     User.findById(user_id).then(function(user)
     {
         if(user)
         {
+            // If the user has found, we render the password reset page to let the user enter his new password. 
             res.render('password_reset', {
                 page_title : 'Reset password', 
                 user_id : user_id, 
@@ -391,17 +413,21 @@ module.exports.GET_Password_Reset = function(req, res, next)
         }
         else 
         {
+            // Otherwise, the user will get a 404 not found error
             next(); 
         }
     }).catch(function(error)
     {
+        // If we got an error, we log the error to see it.
         console.log(error);
         next();
     });
 };
 
+// POST request to /password_reset
 module.exports.POST_Password_Reset = function(req, res, next)
 {
+    // Getting values from the request body and declaring variables that will be used
     const password = req.body.password;
     const confirm_password = req.body.confirm_password;
     const user_id = req.body.user_id;
@@ -409,19 +435,23 @@ module.exports.POST_Password_Reset = function(req, res, next)
 
     if(password != confirm_password) 
     {
+        // If passwords doesn't match, we redirect to the password reset page with an error message
         req.flash('user_id', user_id); 
         req.flash('error', 'Your passwords do not match!'); 
         return res.redirect('/password_reset'); 
     }
 
+    // We search for the user by his id.
     User.findById(user_id).then(function(user)
     {
         if(user)
         {
+            // If the user exists, we reset his password.
             return user.reset_password(password); 
         }
         else 
         {
+            // Otherwise, the user will get an 404 not found error.
             response_sent = true; 
             next();
         }
@@ -429,21 +459,25 @@ module.exports.POST_Password_Reset = function(req, res, next)
     {
         if(!response_sent)
         {
+            // If we didn't send a response yet, we inform the user that his password has been resetted.
             req.flash('password_resetted', true); 
             res.redirect('/password_resetted_info'); 
         }
     }).catch(function(error)
     {
+        // If we got an error, we log the error to see it.
         console.log(error);
         next();
     }); 
 }; 
 
+// GET request to /password_resetted_info
 module.exports.GET_Password_Resetted_Info = function(req, res, next)
 {
     if(req.flash('password_resetted')[0])
     {
+        // If the request came from /password_reset, we render the required page.
         return res.render('password_resetted_info', {page_title : 'Info'}); 
     }
-    next();
+    next(); // Otherwise, the user will get a 404 not found error
 };
