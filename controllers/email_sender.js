@@ -1,13 +1,16 @@
 const variables = require('../variables'); 
 const sendgrid_variables = variables.SendGrid; 
 
+// Required modules
 const nodemailer = require('nodemailer');
 const sendgrid_transport = require('nodemailer-sendgrid-transport');
 
+// Defining transporter for sending emails
 const transporter = nodemailer.createTransport(sendgrid_transport({auth : {
     api_key : sendgrid_variables.api_key
 }})); 
 
+// Function for sending verify email 
 module.exports.SEND_Verify_Token = function(verify_token, email)
 {
     return transporter.sendMail({
@@ -350,6 +353,7 @@ module.exports.SEND_Verify_Token = function(verify_token, email)
     });
 };
 
+// Function for sending password reset email 
 module.exports.SEND_Password_Reset_Token = function(password_reset_token, email)
 {
     return transporter.sendMail({

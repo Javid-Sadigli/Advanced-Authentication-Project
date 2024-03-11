@@ -1,5 +1,6 @@
 const User = require('../models/user');
 
+// Function for sending error page
 module.exports.SEND_Error_Page = function(req, res, next) 
 {
     res.send(`
@@ -29,30 +30,38 @@ module.exports.SEND_Error_Page = function(req, res, next)
     `);
 };
 
+// Function for setting request user for every request if the user has logged in
 module.exports.SET_Request_User = function(req, res, next)
 {
-    if(req.session.user_id)
+    if(req.session.user_id) // Check if user has logged in
     {
+        // Searching for the user with the user id taken from the session
         User.findById(req.session.user_id).then(function(user)
         {
             if(user)
             {
+                // If the user exists, we set the request user
                 req.logged_in = true;
                 req.user = user;
             }
         }).then(function()
         {
+            // Then we pass this middleware 
             next();
         }).catch(function(error)
         {
+            // If we got an error, we log the error to see it.
             console.log(error);
         });
     }
     else
     {
+        // If the user has not logged in, then we just pass
         next();
     }
 };
+
+// Function for setting some local variables for every response
 module.exports.SET_Local_Variables = function(req, res, next)
 {
     res.locals.logged_in = req.logged_in; 
