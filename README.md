@@ -5,4 +5,4 @@ This project implements an advanced session based authentication system using No
 
 ## Installation 
 To install and start the project, you should go through the following steps : 
-### Step 1 : Clone the repository
+#### Step 1 : Clone the repository
