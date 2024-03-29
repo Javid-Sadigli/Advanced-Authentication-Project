@@ -25,14 +25,21 @@ npm install
 ```
 
 #### Step 3 : Set up the variables
-In the main project directory, find the variables.js file and open it. You should make some changes in this file. Find the following lines in the variables.js file : 
+In the main project directory, find the variables.js file and open it. You should make some changes in this file. Find the following line in the variables.js file : 
+```
+DATABASE_URI : 'YOUR_DATABASE_URI', 
+```
+Here you should put URI of your MongoDB database (For that, you should create a MongoDB cluster and take its URI). 
+<br>
+
+Find the following lines in the variables.js file : 
 ```
 SendGrid : {
     api_key : 'YOUR_SENDGRID_API_KEY', 
     sender : 'YOUR_SENDGRID_SENDER'
 }, 
 ```
-Here you should put API key, and sender email of your SendGrid account (For that, you should create a new API key, and do a sender authentication in SendGrid).<br>
+Here you should put API key, and sender email of your SendGrid account (For that, you should create a new API key, and do a sender authentication in your SendGrid account).<br>
 
 After setting up the SendGrid variables, you should also configure the Google OAuth variables. Find the following lines in the variables.js file : 
 ```
