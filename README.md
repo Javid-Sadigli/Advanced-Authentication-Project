@@ -5,17 +5,20 @@ This project implements an advanced session based authentication system using No
 
 ## Installation 
 To install and start the project, you should go through the following steps : 
+
 #### Step 1 : Clone the repository 
 At first you need to clone this repository by typing the following command in your terminal : 
 ``` 
 git clone https://github.com/Javid-Sadigli/Advanced-Authentication-Project.git
 cd Advanced-Authentication-Project
 ```
+
 #### Step 2 : Install the dependencies
 After cloning the project, you need to install its dependencies by typing the following command in your terminal : 
 ```
 npm install
 ```
+
 #### Step 3 : Set up the variables
 In the main project directory, find the variables.js file and open it. You should make some changes in this file. Find the following lines in the variables.js file : 
 ```
@@ -35,5 +38,36 @@ GoogleClient : {
     }
 }
 ```
-Here you should put your client id and client secret of your OAuth client (For that, you should create a new Google OAuth client in the <a href="https://console.cloud.google.com/cloud-resource-manager">Google Developer Console</a>)
+Here you should put your client id and client secret of your OAuth client (For that, you should create a new Google OAuth client in your <a href="https://console.cloud.google.com/cloud-resource-manager">Google Developer Console</a>)
 
+#### Step 4 : Run the project
+After installing the dependencies and setting up the variables you can run the project using the following command : 
+```
+npm start
+```
+
+## Usage 
+1. Sign up with your email.
+2. Check your email address and verify your account.
+3. Sign in manually or with Google. 
+4. If you want, reset your email or password. 
+
+## Features 
+This project's main features are as follows: 
+* User registration with email and password, 
+* Email verification, 
+* User login with email and password, 
+* User login with Google, 
+* Email resetting, 
+* Password resetting, 
+* Logout functionality, 
+* Token protection to CSRF attacks. 
+
+## Contributing 
+Contributions are welcome! Follow these steps to contribute:
+* Fork the project.
+* Create a new branch: `git checkout -b feature/your-feature`.
+* Make your changes.
+* Submit a pull request.
+
+### Thanks for your attention! 
