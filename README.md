@@ -32,7 +32,7 @@ DATABASE_URI : 'YOUR_DATABASE_URI',
 Here you should put URI of your MongoDB database (For that, you should create a MongoDB cluster and take its URI). 
 <br>
 
-Find the following lines in the variables.js file : 
+After setting up your database, you need to configure SendGrid variables to activate the functionality of sending verification and password-reset emails. Find the following lines in the variables.js file : 
 ```
 SendGrid : {
     api_key : 'YOUR_SENDGRID_API_KEY', 
@@ -41,7 +41,7 @@ SendGrid : {
 ```
 Here you should put API key, and sender email of your SendGrid account (For that, you should create a new API key, and do a sender authentication in your SendGrid account).<br>
 
-After setting up the SendGrid variables, you should also configure the Google OAuth variables. Find the following lines in the variables.js file : 
+After setting up the SendGrid variables, you should also configure the Google OAuth variables to activate the functionality of signing in with Google. Find the following lines in the variables.js file : 
 ```
 GoogleClient : {
     OAuth : {
