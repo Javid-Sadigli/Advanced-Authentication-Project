@@ -39,7 +39,7 @@ SendGrid : {
     sender : 'YOUR_SENDGRID_SENDER'
 }, 
 ```
-Here you should put API key, and sender email of your SendGrid account (For that, you should create a new API key, and do a sender authentication in your SendGrid account).<br>
+Here you should put API key, and sender email of your SendGrid account (For that, you should create a new API key, and do a sender authentication in your <a href="https://sendgrid.com/en-us">SendGrid account</a>).<br>
 
 After setting up the SendGrid variables, you should also configure the Google OAuth variables to activate the functionality of signing in with Google. Find the following lines in the variables.js file : 
 ```
